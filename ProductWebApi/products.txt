@@ -1,0 +1,10 @@
+ID   Name        Price   Image       
+2     Iphone       400,00 ₽
+5     Laptop       500,00 ₽
+7     Pencil       200,00 ₽
+8     Back pack    300,00 ₽
+9     Book         59,00 ₽ 
+10    Pc table     200,00 ₽
+11    Coffee machine 200,00 ₽
+4     Monitor      200,00 ₽
+
