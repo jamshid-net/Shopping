@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Shopping.Application.Abstraction;
+using Shopping.Application.DTOs.TokenResponse;
+using Shopping.Application.DTOs.UserDto;
 using Shopping.Application.Interfaces;
 using Shopping.Domain.Models;
 using System;

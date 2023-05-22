@@ -16,7 +16,12 @@ namespace ProductWebApi.Controllers
         {
             _webHostEnvironment = webHostEnvironment;
         }
-
+        [HttpGet("/routes")]
+        public async Task<string> getRoutes(IEnumerable<EndpointDataSource> endpointSources)
+        {
+           string result = string.Join("\n", endpointSources.SelectMany(source => source.Endpoints));
+            return await Task.FromResult(result);
+        }
       
 
 

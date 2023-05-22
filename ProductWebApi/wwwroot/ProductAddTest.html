@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Beautiful Form Example</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Beautiful Form</h1>
+        <form method="post" action="/api/Product/AddProduct">
+            <div class="form-group">
+                <label for="categoryId">Category ID</label>
+                <input name="CategoryId" type="number" class="form-control" id="categoryId" placeholder="Enter category ID">
+              
+            </div>
+            <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input name="ProductName" type="text" class="form-control" id="productName" placeholder="Enter product name">
+              
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="Description" class="form-control" id="description" placeholder="Enter description" rows="3"></textarea>
+               
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input name="Price" type="number" class="form-control" id="price" placeholder="Enter price">
+               
+            </div>
+            <div class="form-group">
+                <label for="picture">Picture</label>
+                <input name="Picture" type="text" class="form-control" id="picture" placeholder="Enter picture URL">
+              
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

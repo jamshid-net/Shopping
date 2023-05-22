@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Shopping.Application.DTOs;
+using Shopping.Application.DTOs.UserDto;
 using Shopping.Application.Interfaces;
 using Shopping.Application.Service;
 using Shopping.Domain.Models;
@@ -22,19 +24,43 @@ namespace ProductWebApi.Controllers
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var users = await _userService.GetAllAsync();
-            return Ok(users);
-        }
+            ResponseDto<IQueryable<User>> response = new ResponseDto<IQueryable<User>>()
+            {
+                StatusCode = 200,
+                Result = users
 
+            };
+
+            return Ok(response);
+        }
+        
         [Authorize(Roles = "Jamshid")]
         [HttpPost("AddUser")]
-        public async Task<IActionResult> CreateUserAsync([FromForm] User user)
+        public async Task<IActionResult> CreateUserAsync([FromForm] UserRegister userRegister)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                BadRequest();
+
             }
-            await _userService.CreateAsync(user);
-            return Ok(user);
+
+            User newUser = new User()
+            {
+                Email = userRegister.Email,
+                Password = userRegister.Password,
+                UserName = userRegister.UserName
+
+            };
+            bool result = await _userService.CreateAsync(newUser);
+            ResponseDto<UserRegister> response = new ResponseDto<UserRegister>()
+            {
+                StatusCode = 200,
+                IsSuccess = result,
+                Result = userRegister
+            };
+            return Ok(response);    
+
+
         }
 
         [Authorize(Roles = "Jamshid")]
@@ -88,16 +114,6 @@ namespace ProductWebApi.Controllers
         }
 
 
-        [Authorize(Roles = "Jamshid")]
-        [HttpPost("AddUsers")]
-        public async Task<IActionResult> CreateUsersAsync([FromBody] IEnumerable<User> users)
-        {
-            List<IActionResult> result = new List<IActionResult>();
-            foreach (var user in users)
-            {
-                result.Add(await CreateUserAsync(user));
-            }
-            return Ok(result);
-        }
+       
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shopping.Application.Abstraction;
+using Shopping.Application.DTOs.UserDto;
 using Shopping.Application.Interfaces;
 using Shopping.Domain.Models;
 using System;

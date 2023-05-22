@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
-using NuGet.Protocol;
 using Serilog;
+using Shopping.Application.DTOs.UserDto;
 using Shopping.Application.Interfaces;
 using Shopping.Domain.Models;
 using System.Security.Claims;

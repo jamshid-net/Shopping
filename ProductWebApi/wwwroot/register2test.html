@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login and Register Page</title>
+    
+    
+  
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Login and Register</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/index.html">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register.html">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-sm-6">
+                <h2>Register</h2>
+                <form method="post" action="api/ForLoginRegister/RegisterUser">
+                    <div class="form-group">
+                        <label for="registerName">Username</label>
+                        <input  name="UserName" class="form-control" id="registerName" placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email address</label>
+                        <input  name="Email" class="form-control" id="registerEmail" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input  name="Password" class="form-control" id="registerPassword" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirm password</label>
+                        <input name="PasswordConfirm" class="form-control" id="registerPassword" placeholder="Password">
+                    </div>
+                    <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+    </style>
+
+
+</body>
+</html>

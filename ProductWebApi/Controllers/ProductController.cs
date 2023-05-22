@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using Shopping.Application.Abstraction;
+using Shopping.Application.DTOs;
+using Shopping.Application.DTOs.ProductDto;
 using Shopping.Application.Interfaces;
 using Shopping.Domain.Models;
 using System.Security.Claims;
@@ -39,27 +42,64 @@ namespace ProductWebApi.Controllers
 
         [Authorize(Roles = "Jamshid")]
         [HttpPost("AddProduct")]
-        public async Task<IActionResult> CreateProductAsync([FromQuery]Product product)
+        public async Task<IActionResult> CreateProductAsync([FromForm] ProductAdd product)
         {
             if(!ModelState.IsValid)
             {
-               return BadRequest(ModelState);
+               return BadRequest(ModelState.ToJson(formatting:Newtonsoft.Json.Formatting.Indented));
             }
-            await _productService.CreateAsync(product);
+            
+            Product newProduct = new()      
+            {
+                CategoryId = product.CategoryId,
+                ProductName = product.ProductName,
+                Picture = product.Picture,
+                Price = product.Price,
+                Description = product.Description,
+
+            };
+
+           bool isAdded= await _productService.CreateAsync(newProduct);
             _logger.LogInformation("Created product from employee" +User.FindFirstValue(ClaimTypes.Email));
-            return Ok(product);
+            ResponseDto<ProductAdd> response = new()
+            {
+                StatusCode = 200,
+                IsSuccess = isAdded,
+                Message = "Added succsessfully",
+                Result = product
+
+            };
+            return Ok(response);
         }
         [Authorize(Roles = "Jamshid")]
         [HttpPut("UpdateProduct")]
-        public async Task<IActionResult> UpdateProductAsync(Product product)
+        public async Task<IActionResult> UpdateProductAsync(ProductUpdate product)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var IsAdded= await _productService.UpdateAsync(product);
-            if(IsAdded) return Ok(product);
-            return BadRequest();
+            Product newProduct = new()
+            {
+                ProductId = product.ProductId,
+                CategoryId = product.CategoryId,
+                ProductName = product.ProductName,
+                Picture = product.Picture,
+                Price = product.Price,
+                Description = product.Description,
+
+            };
+            var isUpdated = await _productService.UpdateAsync(newProduct);
+            ResponseDto<ProductUpdate> response = new()
+            {
+                StatusCode = 200,
+                IsSuccess = isUpdated,
+                Message = "Updated succsessfully",
+                Result = product
+
+            };
+            return Ok(response);
+            
             
         }
 
@@ -81,17 +121,7 @@ namespace ProductWebApi.Controllers
             var result =await _productService.GetByIdAsync(id);
             return Ok(result);
         }
-        [Authorize(Roles = "Jamshid")]
-        [HttpPost("AddProducts")] 
-        public async Task<IActionResult> CreateProductsAsync([FromBody] IEnumerable<Product> products)
-        {
-            List<IActionResult> result = new List<IActionResult>(); 
-            foreach(var product in products)
-            {
-               result.Add (await CreateProductAsync(product));
-            }
-            return Ok(result);
-        }
+       
 
     }
 }

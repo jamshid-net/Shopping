@@ -26,7 +26,7 @@ namespace ProductWebApi
                 .ReadFrom.Configuration(builder.Configuration)
                 .MinimumLevel.Warning()
                 .WriteTo.Console()
-                 .Enrich.FromLogContext()
+                .Enrich.FromLogContext()
                 .Enrich.WithEnvironmentUserName()
                 .Enrich.WithClientIp()
                 .Enrich.WithEnvironmentName()
@@ -60,7 +60,7 @@ namespace ProductWebApi
                 });
                 builder.Services.AddAuthorization();
                 builder.Services.AddHttpContextAccessor();
-                
+               
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen(
                  //   options =>
@@ -86,7 +86,7 @@ namespace ProductWebApi
                  //   },
                  //   new List<string>()
                  //    } });
-                 //}
+                 //}                               
                  );
 
                 var app = builder.Build();
@@ -107,8 +107,9 @@ namespace ProductWebApi
                     app.UseSwaggerUI();
                 }
                 app.MapControllers();
+           
 
-               await app.RunAsync();
+            await app.RunAsync();
 
         }
     }

@@ -20,4 +20,6 @@ namespace Shopping.Domain.Models
 
 
     }
+  
+    
 }

@@ -1,9 +1,5 @@
-﻿using Shopping.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Shopping.Application.DTOs.UserDto;
+using Shopping.Domain.Models;
 
 namespace Shopping.Application.Interfaces
 {

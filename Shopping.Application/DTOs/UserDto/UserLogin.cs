@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shopping.Domain.Models
+namespace Shopping.Application.DTOs.UserDto
 {
     public class UserLogin
     {

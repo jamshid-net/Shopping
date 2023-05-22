@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Serilog;
+﻿using Serilog;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace ProductWebApi.ExceptionHandler
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
@@ -31,6 +28,8 @@ namespace ProductWebApi.ExceptionHandler
                     Log.Error("⚠️CLIENT_IP:{ClientIp} CLIENT:{EnvironmentUserName}" + $" Request:{httpContext.Request.Path} Status_Code:{httpContext.Response.StatusCode}");
                 }
             }
+
+           
             catch (KeyNotFoundException ex)
             {
               await  HandleExceptionAsync

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shopping.Application.DTOs;
+using Shopping.Application.DTOs.CategoryDto;
 using Shopping.Application.Interfaces;
 using Shopping.Domain.Models;
 
@@ -32,24 +34,49 @@ namespace ProductWebApi.Controllers
 
         [HttpPost]
         [Route("addcategory")]
-        public async Task<IActionResult> AddCategoryAsync([FromForm] Category category)
+        public async Task<IActionResult> AddCategoryAsync([FromForm] CategoryAdd category)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            await _categoryService.CreateAsync(category);
-            return Ok(category);
+
+            Category newCategory = new()
+            {
+                CategoryId = 0,
+                CategoryName = category.CategoryName
+            };
+
+
+           bool isAdded=   await _categoryService.CreateAsync(newCategory);
+            ResponseDto<CategoryAdd> responseDto = new()
+            {
+                StatusCode = 200,
+                IsSuccess = isAdded,
+                Result = category
+            };
+            return Ok(responseDto);
         }
         [Authorize(Roles = "Jamshid")]
         [HttpPut]
         [Route("updatecategory")]
-        public async Task<IActionResult> UpdateCategoryAsync([FromBody]Category category)
+        public async Task<IActionResult> UpdateCategoryAsync([FromBody]CategoryUpdate category)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var isUpdate = await _categoryService.UpdateAsync(category);
-            if (isUpdate)
-                return Ok(category);
-            return BadRequest();
+            Category newCategory = new()
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName
+            };
+            var isUpdate = await _categoryService.UpdateAsync(newCategory);
+
+            ResponseDto<CategoryUpdate> responseDto = new()
+            {
+                StatusCode = 200,
+                IsSuccess = isUpdate,
+                Result = category
+            };
+            return Ok(responseDto);
+
         }
         [Authorize(Roles = "Jamshid")]
         [HttpDelete]
