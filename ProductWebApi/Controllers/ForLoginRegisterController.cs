@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,30 +16,14 @@ namespace ProductWebApi.Controllers
    
     public class ForLoginRegisterController : Controller
     {
-        private readonly IWebHostEnvironment _hostEnviroment;
-        private readonly IJwtService _jwtService;
         private readonly IUserService _userService;
-        private readonly IUserTokenService _userTokenService;
-        private readonly IConfiguration _configuration;
-       private readonly ILogger<ForLoginRegisterController> _logger;
+        private readonly IMapper _mapper;
 
-        public ForLoginRegisterController
-            (IWebHostEnvironment hostEnviroment,
-            IJwtService jwtService,
-            IUserService userService,
-            IUserTokenService userTokenService,
-            IConfiguration configuration
-,
-            ILogger<ForLoginRegisterController> logger)
+        public ForLoginRegisterController(IUserService userService, IMapper mapper)
         {
-            _hostEnviroment = hostEnviroment;
-            _jwtService = jwtService;
             _userService = userService;
-            _userTokenService = userTokenService;
-            _configuration = configuration;
-            _logger = logger;
+            _mapper = mapper;
         }
-
 
         [HttpPost]
         [Route("[action]")]
@@ -51,13 +36,10 @@ namespace ProductWebApi.Controllers
                 
             }
 
-            User newUser = new User()
-            {
-                Email = userRegister.Email,
-                Password = userRegister.Password,
-                UserName = userRegister.UserName
-                
-            };
+            var newUser =   _mapper.Map<User>(userRegister);
+            newUser.CreatedBy = userRegister.UserName;
+            newUser.CreatedAt = DateTime.Now.ToUniversalTime();
+            
             bool result = await _userService.CreateAsync(newUser);
             if(result) 
             {

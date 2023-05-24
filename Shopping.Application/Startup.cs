@@ -28,7 +28,7 @@ namespace Shopping.Application
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IUserTokenService, UserTokenService>();
             services.AddScoped<IOrderRepository, OrderService>();
-            
+           
           
             return services;
         }

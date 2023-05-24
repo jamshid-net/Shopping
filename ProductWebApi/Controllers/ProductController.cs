@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
+using Serilog;
 using Shopping.Application.Abstraction;
 using Shopping.Application.DTOs;
 using Shopping.Application.DTOs.ProductDto;
@@ -18,12 +19,12 @@ namespace ProductWebApi.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-        private readonly ILogger<ProductController> _logger;
-        public ProductController(IProductService productService, ILogger<ProductController> logger)
+
+        public ProductController(IProductService productService)
         {
             _productService = productService;
-            _logger = logger;
         }
+
         [HttpGet("Products")]
        // [Authorize(Roles = "GetAllProducts")]
         
@@ -44,23 +45,25 @@ namespace ProductWebApi.Controllers
         [HttpPost("AddProduct")]
         public async Task<IActionResult> CreateProductAsync([FromForm] ProductAdd product)
         {
+
             if(!ModelState.IsValid)
             {
                return BadRequest(ModelState.ToJson(formatting:Newtonsoft.Json.Formatting.Indented));
             }
-            
-            Product newProduct = new()      
+
+            Product newProduct = new Product
             {
                 CategoryId = product.CategoryId,
-                ProductName = product.ProductName,
+                Description = product.Description,
                 Picture = product.Picture,
                 Price = product.Price,
-                Description = product.Description,
-
+                ProductName = product.ProductName,
+                CreatedBy = ClaimTypes.Email,
+                CreatedAt = DateTime.Now.ToUniversalTime()
             };
 
            bool isAdded= await _productService.CreateAsync(newProduct);
-            _logger.LogInformation("Created product from employee" +User.FindFirstValue(ClaimTypes.Email));
+            Log.Information("Created product from employee" +User.FindFirstValue(ClaimTypes.Email));
             ResponseDto<ProductAdd> response = new()
             {
                 StatusCode = 200,
@@ -87,7 +90,8 @@ namespace ProductWebApi.Controllers
                 Picture = product.Picture,
                 Price = product.Price,
                 Description = product.Description,
-
+                LastModified = DateTime.Now.ToUniversalTime(),
+                LastModifiedBy = ClaimTypes.Email
             };
             var isUpdated = await _productService.UpdateAsync(newProduct);
             ResponseDto<ProductUpdate> response = new()

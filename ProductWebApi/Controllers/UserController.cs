@@ -9,6 +9,7 @@ using Shopping.Application.Service;
 using Shopping.Domain.Models;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace ProductWebApi.Controllers
 {
@@ -17,9 +18,14 @@ namespace ProductWebApi.Controllers
     [Authorize]
     public class UserController : Controller
     {
+
         private readonly IUserService _userService;
-        public UserController(IUserService userService)=> 
+
+        public UserController(IUserService userService)
+        {
             _userService = userService;
+        }
+
         [HttpGet("Users")]
         public async Task<IActionResult> GetAllUsersAsync()
         {
@@ -48,7 +54,9 @@ namespace ProductWebApi.Controllers
             {
                 Email = userRegister.Email,
                 Password = userRegister.Password,
-                UserName = userRegister.UserName
+                UserName = userRegister.UserName,
+                CreatedBy = ClaimTypes.Email,
+                CreatedAt = DateTime.Now.ToUniversalTime()
 
             };
             bool result = await _userService.CreateAsync(newUser);
@@ -71,6 +79,9 @@ namespace ProductWebApi.Controllers
             {
                 return BadRequest();
             }
+
+            user.LastModified = DateTime.UtcNow.ToUniversalTime();
+            user.LastModifiedBy = ClaimTypes.Email;
             var IsAdded = await _userService.UpdateAsync(user);
             if (IsAdded) return Ok(user);
             return BadRequest();

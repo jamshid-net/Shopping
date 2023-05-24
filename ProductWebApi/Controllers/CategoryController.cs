@@ -5,16 +5,24 @@ using Shopping.Application.DTOs;
 using Shopping.Application.DTOs.CategoryDto;
 using Shopping.Application.Interfaces;
 using Shopping.Domain.Models;
+using System.Security.Claims;
+using Shopping.Application;
+using AutoMapper;
 
 namespace ProductWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class CategoryController : ControllerBase
+    public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService) => _categoryService = categoryService;
+        private readonly IMapper _mapper;
+        public CategoryController(ICategoryService categoryService,IMapper mapper)
+        {
+            _categoryService = categoryService;
+            _mapper = mapper;
+        }
 
         [HttpGet]
         [Route("categories")]
@@ -39,11 +47,11 @@ namespace ProductWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            Category newCategory = new()
-            {
-                CategoryId = 0,
-                CategoryName = category.CategoryName
-            };
+
+            var newCategory = _mapper.Map<Category>(category);
+            newCategory.CreatedAt = DateTime.Now.ToUniversalTime();
+            newCategory.CreatedBy = ClaimTypes.Email;
+           
 
 
            bool isAdded=   await _categoryService.CreateAsync(newCategory);
@@ -62,11 +70,10 @@ namespace ProductWebApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            Category newCategory = new()
-            {
-                CategoryId = category.CategoryId,
-                CategoryName = category.CategoryName
-            };
+            var newCategory = _mapper.Map<Category>(category);
+            newCategory.LastModified = DateTime.Now.ToUniversalTime();  
+            newCategory.LastModifiedBy = ClaimTypes.Email;
+           
             var isUpdate = await _categoryService.UpdateAsync(newCategory);
 
             ResponseDto<CategoryUpdate> responseDto = new()

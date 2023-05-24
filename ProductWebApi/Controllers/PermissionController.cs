@@ -14,8 +14,11 @@ namespace ProductWebApi.Controllers
     public class PermissionController : Controller
     {
         private readonly IPermissionService _permissionService;
-        public PermissionController(IPermissionService permissionService)=>
+
+        public PermissionController(IPermissionService permissionService)
+        {
             _permissionService = permissionService;
+        }
 
         [HttpGet("Permissions")]
         public async Task<IActionResult> GetAllPermissionsAsync()
@@ -32,6 +35,7 @@ namespace ProductWebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
+          
             await _permissionService.CreateAsync(permission);
             return Ok(permission);
         }

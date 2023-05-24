@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Shopping.Domain.Models
 {
     [Table("products")]
-    public class Product
+    public class Product: BaseEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

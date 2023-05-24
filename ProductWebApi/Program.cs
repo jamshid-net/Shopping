@@ -12,6 +12,7 @@ using ProductWebApi.ExceptionHandler;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.FileProviders;
+using ProductWebApi.AutoMapping;
 
 namespace ProductWebApi
 {
@@ -42,7 +43,7 @@ namespace ProductWebApi
 
                 builder.Services.AddControllers();
                 IConfiguration configuration = builder.Configuration;
-
+                  builder.Services.AddAutoMapper(typeof(AppMapping));
              
                 builder.Services.AddApplication(configuration);
                 builder.Services.AddInfrastructure(configuration);

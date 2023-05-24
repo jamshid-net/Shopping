@@ -1,4 +1,5 @@
-﻿using Shopping.Application.DTOs.UserDto;
+﻿using Shopping.Application.DTOs.TokenResponse;
+using Shopping.Application.DTOs.UserDto;
 using Shopping.Domain.Models;
 using System.Security.Claims;
 

@@ -8,18 +8,16 @@ namespace ProductWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ShopController : ControllerBase
+    public class ShopController : Controller
     {
+
+        private readonly IUserService _userService;
         private readonly IOrderRepository _orderRepository;
-        private readonly IUserService _userSerive;
-        
 
-
-        public ShopController(IOrderRepository orderRepository, IUserService userSerive)
+        public ShopController(IUserService userService, IOrderRepository orderRepository)
         {
+            _userService = userService;
             _orderRepository = orderRepository;
-            _userSerive = userSerive;
-           
         }
 
 
@@ -28,12 +26,12 @@ namespace ProductWebApi.Controllers
         {
 
             string email = User.FindFirstValue(ClaimTypes.Email);
-            User? user = await _userSerive.GetAsync(x => x.Email == email);
+            User? user = await _userService.GetAsync(x => x.Email == email);
             if (user == null) return NotFound("User not found!");
             Order order = new()
             {
                 User = user,
-                CreatedDate = cartItem.DateCreated,
+                CreatedAt = cartItem.DateCreated,
                 UserId = user.UserId
             };
         

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Shopping.Domain.Models
 {
     [Table("categories")]
-    public class Category
+    public class Category : BaseEntity
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("category_id")]

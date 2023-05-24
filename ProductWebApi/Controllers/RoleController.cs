@@ -13,10 +13,14 @@ namespace ProductWebApi.Controllers
     [Authorize(Roles = "Jamshid")]
     public class RoleController : Controller
     {
+
+
         private readonly IRoleService _roleService;
 
-        public RoleController(IRoleService roleService) =>
+        public RoleController(IRoleService roleService)
+        {
             _roleService = roleService;
+        }
 
         [HttpGet("Roles")]
         public async Task<IActionResult> GetAllRolesAsync()

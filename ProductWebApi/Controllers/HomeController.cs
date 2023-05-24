@@ -10,12 +10,13 @@ namespace ProductWebApi.Controllers
     [ApiController]
     public class HomeController : Controller
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(IWebHostEnvironment webHostEnvironment)
-        {
-            _webHostEnvironment = webHostEnvironment;
-        }
+        private readonly IWebHostEnvironment _hostEnviroment;
+
+        public HomeController(IWebHostEnvironment hostEnviroment)
+             =>_hostEnviroment = hostEnviroment;
+        
+
         [HttpGet("/routes")]
         public async Task<string> getRoutes(IEnumerable<EndpointDataSource> endpointSources)
         {
@@ -31,7 +32,7 @@ namespace ProductWebApi.Controllers
         public async Task<ContentResult> ProductPage()
         {
 
-            string webrootpath = _webHostEnvironment.WebRootPath;
+            string webrootpath = _hostEnviroment.WebRootPath;
             string path =  Path.Combine(webrootpath, "productPage.html");
             var html = System.IO.File.ReadAllText(path);
             
@@ -53,6 +54,8 @@ namespace ProductWebApi.Controllers
             var context = HttpContext;
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/");
+            
+        
         }
         
 

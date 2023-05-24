@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Shopping.Domain.Models
 {
     [Table("orders")]
-    public class Order
+    public class Order: BaseEntity
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("order_id")]
@@ -19,8 +19,6 @@ namespace Shopping.Domain.Models
         public int UserId { get; set; }
         public  User User { get; set; }
         
-        [Column("created_at")]
-        public DateTime? CreatedDate { get; set; } = DateTime.Now.ToUniversalTime();
         public virtual IList<OrderProduct>? OrderProducts { get; set; }
     }
 }

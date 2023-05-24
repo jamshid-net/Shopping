@@ -11,12 +11,16 @@ namespace ProductWebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Jamshid")]
-    public class RolePermissionController : ControllerBase
+    public class RolePermissionController : Controller
     {
-        private readonly IRolePermissionService _rolePermissionService;
 
-        public RolePermissionController(IRolePermissionService rolePermissionService)=>
+        protected readonly IRolePermissionService _rolePermissionService;
+
+        public RolePermissionController(IRolePermissionService rolePermissionService)
+        {
             _rolePermissionService = rolePermissionService;
+        }
+
         [HttpGet("RolePermissions")]
         public async Task<IActionResult> GetAllRolePermissionsAsync()
         {
