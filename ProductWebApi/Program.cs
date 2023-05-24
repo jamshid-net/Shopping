@@ -43,7 +43,7 @@ namespace ProductWebApi
 
                 builder.Services.AddControllers();
                 IConfiguration configuration = builder.Configuration;
-                  builder.Services.AddAutoMapper(typeof(AppMapping));
+                 builder.Services.AddAutoMapper(typeof(AppMapping));
              
                 builder.Services.AddApplication(configuration);
                 builder.Services.AddInfrastructure(configuration);
@@ -53,10 +53,12 @@ namespace ProductWebApi
                builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                .AddCookie(options =>
                {
+                 
                  options.LoginPath = "/";
-                 options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                 options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
                  options.Cookie.MaxAge = options.ExpireTimeSpan;
                  options.SlidingExpiration = true;
+             
 
                 });
                 builder.Services.AddAuthorization();

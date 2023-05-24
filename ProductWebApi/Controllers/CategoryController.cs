@@ -8,6 +8,7 @@ using Shopping.Domain.Models;
 using System.Security.Claims;
 using Shopping.Application;
 using AutoMapper;
+using Serilog;
 
 namespace ProductWebApi.Controllers
 {
@@ -28,6 +29,8 @@ namespace ProductWebApi.Controllers
         [Route("categories")]
         public async Task<IActionResult> GetAllCategoriesAsync()
         {
+            Log.Error("EMAIL of USER :"
+                + ClaimTypes.Email);
             var categories = await _categoryService.GetAllAsync();
             return Ok(categories);
         }
