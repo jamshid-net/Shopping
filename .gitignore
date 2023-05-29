@@ -363,3 +363,8 @@ MigrationBackup/
 FodyWeavers.xsd
 /ProductWebApi/appsettings.json
 /ProductWebApi/wwwroot/css/styles.css
+/ProductWebApi/wwwroot/css/bootstrap.min.css
+/ProductWebApi/wwwroot/css/all.min.css
+/ProductWebApi/wwwroot/js/popper.min.js
+/ProductWebApi/wwwroot/js/jquery-3.3.1.slim.min.js
+/ProductWebApi/wwwroot/js/bootstrap.min.js
