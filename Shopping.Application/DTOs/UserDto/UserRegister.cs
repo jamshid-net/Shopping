@@ -10,8 +10,6 @@ namespace Shopping.Application.DTOs.UserDto
 
         public string UserName { get; set; }
        
-        
-       
         [EmailAddress(ErrorMessage ="Invalid email type")]
         [Required(ErrorMessage = "Enter email! ")]
         public string Email { get; set; }
@@ -19,8 +17,8 @@ namespace Shopping.Application.DTOs.UserDto
         
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Enter password! ")]
-
         public string Password { get; set; }
+
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Confirm password!")]
         [Compare("Password", ErrorMessage = "Passwords incorrect!")]

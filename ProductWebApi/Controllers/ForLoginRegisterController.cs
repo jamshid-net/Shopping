@@ -14,16 +14,8 @@ namespace ProductWebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
    
-    public class ForLoginRegisterController : Controller
+    public class ForLoginRegisterController : ApiBaseController
     {
-        private readonly IUserService _userService;
-        private readonly IMapper _mapper;
-
-        public ForLoginRegisterController(IUserService userService, IMapper mapper)
-        {
-            _userService = userService;
-            _mapper = mapper;
-        }
 
         [HttpPost]
         [Route("[action]")]
@@ -46,7 +38,7 @@ namespace ProductWebApi.Controllers
              Log.Fatal("Success registered user " + userRegister.UserName);
                 var context = HttpContext;
                 context.Response.ContentType = "text/html";
-                context.Response.Redirect("/productPage.html");
+                context.Response.Redirect("/");
             }
 
         }
@@ -154,11 +146,11 @@ namespace ProductWebApi.Controllers
 
             var claims = new List<Claim>() { new Claim(ClaimTypes.Email, user.Email) };
 
-            foreach (UserRole userRole in foundUser.UsersRoles)
+            foreach (var userRole in foundUser.Roles)
             {
-                foreach (RolePermission permission in userRole.Role.RolePermissions)
+                foreach (var permission in userRole.Permissions)
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, permission.Permission.PermissionName));
+                    claims.Add(new Claim(ClaimTypes.Role, permission.PermissionName));
                 }
             }
 

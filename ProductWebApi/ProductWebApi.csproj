@@ -43,6 +43,7 @@
   <ItemGroup>
     <Folder Include="Logs\" />
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="wwwroot\photos\Watches\" />
   </ItemGroup>
 
 </Project>

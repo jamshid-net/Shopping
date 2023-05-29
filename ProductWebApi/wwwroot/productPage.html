@@ -9,6 +9,13 @@
             <meta name="author" content="" />
             <title>Shop Homepage - Start Bootstrap Template</title>
             <style>
+                body {
+                    background-image: url(/photos/indexbackground.jpg);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: cover;
+                    background-color: #B4AFF1;
+                }
                 .imagecustomwidth {
                     width: 100% !important;
                     height: 40vh !important;
@@ -28,7 +35,8 @@
         </head>
         <body>
             <!-- Navigation-->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: rgb(26, 24, 50)">
+
                 <div class="container px-4 px-lg-5">
                     <a id="testhtml" class="navbar-brand" href="#!">Start Bootstrap</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -43,22 +51,33 @@
                                     <li><hr class="dropdown-divider" /></li>
                                     <li><a class="dropdown-item" href="#!">Popular Items</a></li>
                                     <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+
                                 </ul>
                             </li>
+
                         </ul>
+
                         <form class="d-flex">
-                            <button class="btn btn-outline-dark" type="submit">
+                            <a href="/checkoutlist.html" class="btn btn-outline-light" role="button">
                                 <i class="bi-cart-fill me-1"></i>
                                 Cart
-                                <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                            </button>
+                                <span id="countOfItems" class="badge bg-light text-black ms-1 rounded-pill "></span>
+                            </a>
                         </form>
-                        <a class="btn btn-primary m-3" href="/logout" role="button">Log out!</a>
+
+
+                        <input id="searchProduct" class="w-25 form-control m-2" placeholder="Search" aria-label="Search">
+                        <button id="eventFromJs" class="btn btn-success m-2">Search</button>
+                        <a class="btn btn-primary ml-1" href="/userpage.html" role="button">My account</a>
+                        <a class="btn btn-danger m-3" href="/logout" role="button">Log out!</a>
                     </div>
+
+
                 </div>
             </nav>
+           
             <!-- Header-->
-            <header class="bg-dark py-5">
+            <header class="py-5" style="background-color: rgb(26, 24, 50)">
                 <div class="container px-4 px-lg-5 my-5">
                     <div class="text-center text-white">
                         <h1 class="display-4 fw-bolder">Shop in style</h1>
@@ -76,11 +95,6 @@
             </section>
             <nav aria-label="Page navigation example">
                 <ul id="paginationForCard" class="pagination justify-content-center">
-                    <!--<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>-->
                 </ul>
             </nav>
             <!-- Footer-->
@@ -88,9 +102,9 @@
                 <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
             </footer>
             <!-- Bootstrap core JS-->
+            <script src="/js/index.js" asp-append-version="true"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
             <!-- Core theme JS-->
-            <script src="/js/index.js" asp-append-version="true"></script>
         </body>
 
 </html>

@@ -12,7 +12,9 @@ namespace Shopping.Domain.Models
         public int PermissionId { get; set; }
         [Column("permission_name")]
         public string? PermissionName { get; set; }
-        [JsonIgnore]
-        public virtual IList<RolePermission>? RolePermissions { get; set; } 
+
+        public List<Role>? Roles { get; set; }   
+        
+        
     }
 }

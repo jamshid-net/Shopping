@@ -3,11 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shopping.Application.Abstraction;
 using Shopping.Infrastructure.DataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shopping.Infrastructure
 {
@@ -19,7 +14,6 @@ namespace Shopping.Infrastructure
             {
                 options.UseNpgsql(configuration.GetConnectionString("DbConnection"));
                 
-
             });
             return services;    
         }

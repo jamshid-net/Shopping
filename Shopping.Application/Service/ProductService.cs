@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shopping.Application.Abstraction;
-using Shopping.Application.Interfaces;
-using Shopping.Domain.Models;
-
-namespace Shopping.Application.Service
+﻿namespace Shopping.Application.Service
 {
 
     public class ProductService : IProductService

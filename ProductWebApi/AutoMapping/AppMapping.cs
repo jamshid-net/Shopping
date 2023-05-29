@@ -12,6 +12,8 @@ namespace ProductWebApi.AutoMapping
         public AppMapping()
         {
             CreateMap<CategoryAdd, Category>();
+                
+
             CreateMap<CategoryUpdate, Category>();
             CreateMap<ProductAdd, Product>();
             CreateMap<ProductUpdate, Product>();

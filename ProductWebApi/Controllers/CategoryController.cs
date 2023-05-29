@@ -15,15 +15,9 @@ namespace ProductWebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class CategoryController : Controller
+    public class CategoryController : ApiBaseController
     {
-        private readonly ICategoryService _categoryService;
-        private readonly IMapper _mapper;
-        public CategoryController(ICategoryService categoryService,IMapper mapper)
-        {
-            _categoryService = categoryService;
-            _mapper = mapper;
-        }
+       
 
         [HttpGet]
         [Route("categories")]
@@ -53,7 +47,7 @@ namespace ProductWebApi.Controllers
 
             var newCategory = _mapper.Map<Category>(category);
             newCategory.CreatedAt = DateTime.Now.ToUniversalTime();
-            newCategory.CreatedBy = ClaimTypes.Email;
+            newCategory.CreatedBy = User.FindFirstValue(ClaimTypes.Email);
            
 
 

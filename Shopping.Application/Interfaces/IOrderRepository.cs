@@ -11,5 +11,6 @@ namespace Shopping.Application.Interfaces
     public interface IOrderRepository: IRepository<Order>
     {
         Task<Order> GetAsync(Expression<Func<Order, bool>> expression);
+        Task<Order> AddOrderAsync(Order order);
     }
 }

@@ -16,8 +16,7 @@ namespace Shopping.Domain.Models
         public int CategoryId { get; set; }
         [Column("category_name")]
         public string CategoryName { get; set; }  
-        ICollection<Product> Products { get; set; }
-
+        ICollection<Product>? Products { get; set; }
 
     }
   

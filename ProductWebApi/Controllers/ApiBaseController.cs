@@ -1,59 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Shopping.Application.Interfaces;
 
 namespace ProductWebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ApiBaseController : ControllerBase
+public class ApiBaseController : Controller
 {
-    protected readonly IWebHostEnvironment _hostEnviroment;
-    protected readonly IJwtService _jwtService;
-    protected readonly IUserTokenService _userTokenService;
-    protected readonly IConfiguration _configuration;
-    protected readonly ICategoryService _categoryService;
-    protected readonly IPermissionService _permissionService;
-    protected readonly IRoleService _roleService;
-    protected readonly IRolePermissionService _rolePermissionService;
-    protected readonly IOrderRepository _orderRepository;
-    protected readonly IUserService _userService;
-    protected readonly IProductService _productService;
 
+    protected  ICategoryService _categoryService
+       => HttpContext.RequestServices.GetRequiredService<ICategoryService>();
     
-    public ApiBaseController
-    (
-        IWebHostEnvironment hostEnviroment,
-        IJwtService jwtService ,
-        IUserTokenService userTokenService,
-        IConfiguration configuration,
-        ICategoryService categoryService,
-        IPermissionService permissionService,
-        IRoleService roleService,
-        IRolePermissionService rolePermissionService,
-        IOrderRepository orderRepository,
-        IUserService userService,
-        IProductService productService
-    )
-    {
-        _categoryService = categoryService;
-        _permissionService = permissionService;
-        _roleService = roleService;
-        _orderRepository = orderRepository;
-        _userService = userService;
-        _productService = productService;
-        _rolePermissionService = rolePermissionService;
-        _orderRepository = orderRepository;
-        _hostEnviroment = hostEnviroment;
-        _jwtService = jwtService;
-        _userTokenService = userTokenService;
-        _configuration = configuration;
+    protected  IMapper _mapper
+        => HttpContext.RequestServices.GetRequiredService<IMapper>();
+    protected  IUserService _userService 
+        => HttpContext.RequestServices.GetRequiredService<IUserService>();
+    protected IWebHostEnvironment _hostEnviroment 
+        => HttpContext.RequestServices.GetRequiredService<IWebHostEnvironment>();
 
-    }
+    protected IPermissionService _permissionService 
+        => HttpContext.RequestServices.GetRequiredService<IPermissionService>();
+    protected IProductService _productService 
+        => HttpContext.RequestServices.GetRequiredService<IProductService>();
+    protected IRoleService _roleService 
+        => HttpContext.RequestServices.GetRequiredService<IRoleService>();
 
-
-
-
-
-
+   
+    protected IOrderRepository _orderRepository 
+        => HttpContext.RequestServices.GetRequiredService<IOrderRepository>();
+   
+    protected ICartItemService _cartItemService 
+        => HttpContext.RequestServices.GetRequiredService<ICartItemService>();
 }
 

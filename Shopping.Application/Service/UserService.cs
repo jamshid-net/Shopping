@@ -1,16 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shopping.Application.Abstraction;
-using Shopping.Application.Interfaces;
-using Shopping.Domain.Models;
-using System.Linq.Expressions;
-
-namespace Shopping.Application.Service
+﻿namespace Shopping.Application.Service
 {
     public class UserService : IUserService
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly IHashStringService _hashStringService;
-
+        
         public UserService(IApplicationDbContext dbContext, IHashStringService hashStringService)
         {
 
@@ -21,23 +15,9 @@ namespace Shopping.Application.Service
         public async Task<bool> CreateAsync(User entity)
         {
            string hashedPassword = await _hashStringService.HashStringAsync(entity.Password);
-            List<UserRole> userRoles = new List<UserRole>();
-            var AllRoles = _dbContext.Roles.ToList();
+
             entity.Password = hashedPassword;
-            foreach (var roleId in entity.Roles)
-            {
-                if (AllRoles.Exists(x => x.RoleId == roleId))
-                {
-                    userRoles.Add(new UserRole()
-                    {
-                        Role = _dbContext.Roles.Find(roleId)
-                    });
-                }
-            }
-
-            entity.UsersRoles = userRoles;
-
-
+            
             _dbContext.Users.Add(entity);
             int rowsAffected = await _dbContext.SaveChangesAsync();
             return rowsAffected > 0;
@@ -58,11 +38,8 @@ namespace Shopping.Application.Service
         {
 
             var users = _dbContext.Users
-                .Include(x => x.UsersRoles)
-                .ThenInclude(x => x.Role)
-                .ThenInclude(x=> x.RolePermissions)
-                .ThenInclude(x=>x.Permission);
-           
+                .Include(x => x.Roles)
+                .ThenInclude(x => x.Permissions);
                 
             return await Task.FromResult(users);
            
@@ -71,10 +48,8 @@ namespace Shopping.Application.Service
         public async Task<User> GetAsync(Expression<Func<User,bool>> expression)
         {
             User? user = _dbContext.Users.Where(expression)?
-                .Include(x=>x.UsersRoles)?
-                .ThenInclude(x=>x.Role)?
-                .ThenInclude(x=>x.RolePermissions)
-                .ThenInclude(x=>x.Permission)
+                 .Include(x => x.Roles)
+                .ThenInclude(x => x.Permissions)
                 .FirstOrDefault();
 
             return user;
@@ -93,22 +68,20 @@ namespace Shopping.Application.Service
         public async Task<bool> UpdateAsync(User entity)
         {
             string hashedPassword = await _hashStringService.HashStringAsync(entity.Password);
-            List<UserRole> userRoles = new List<UserRole>();
+            
             var AllRoles = _dbContext.Roles.ToList();
             entity.Password = hashedPassword;
-            foreach (var roleId in entity.Roles)
+            foreach (var roleId in entity.RolesIds)
             {
                 if (AllRoles.Exists(x => x.RoleId == roleId))
                 {
-                    userRoles.Add(new UserRole()
+                    foreach (var item in AllRoles)
                     {
-                        Role = _dbContext.Roles.Find(roleId)
-                    });
+                        entity.Roles.Add(item);
+                    }
                 }
+                
             }
-
-            entity.UsersRoles = userRoles;
-
 
             _dbContext.Users.Update(entity);
             int rowsAffected = await _dbContext.SaveChangesAsync();

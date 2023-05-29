@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Application.DTOs.UserDto
 {
-    internal class UserUpdate
+    public class UserUpdate
     {
     }
 }

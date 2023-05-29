@@ -22,14 +22,16 @@ namespace Shopping.Domain.Models
         [Column("password")]
         public string Password { get; set; }
 
-        [JsonIgnore] 
-        public virtual IList<UserRole>? UsersRoles { get; set;}
+        [JsonIgnore]
+        public List<Role>? Roles { get; set; }   
+
+
         [JsonIgnore]
         public IList<Order>? Orders { get; set; }
 
         [NotMapped]
         [JsonIgnore]
-        public int[] Roles { get; set; }  = new int[1] { 1 };
+        public int[] RolesIds { get; set; }  = new int[1] { 1 };
        
     }
 }

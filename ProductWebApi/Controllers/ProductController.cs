@@ -1,29 +1,25 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Flurl.Http;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using Serilog;
-using Shopping.Application.Abstraction;
 using Shopping.Application.DTOs;
 using Shopping.Application.DTOs.ProductDto;
 using Shopping.Application.Interfaces;
 using Shopping.Domain.Models;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace ProductWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ProductController : Controller
+    public class ProductController : ApiBaseController
     {
-        private readonly IProductService _productService;
+        
 
-        public ProductController(IProductService productService)
-        {
-            _productService = productService;
-        }
+        
 
         [HttpGet("Products")]
        // [Authorize(Roles = "GetAllProducts")]
@@ -37,9 +33,26 @@ namespace ProductWebApi.Controllers
         [HttpGet("pagenation")]
         public async Task<IActionResult> GetAllProductsPageAsync(int page)
         {
-            var products = (await _productService.GetAllAsync()).Skip((page - 1) * 5).Take(5);
+            var products = (await _productService.GetAllAsync()).Skip((page - 1) * 6).Take(6);
             return Ok(products);
         }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> SearchProductsAndGetAllAsync(string word)
+        {
+            var products = await _productService.GetAllAsync();
+            var FoundProducts = new List<Product>();
+            foreach (var product in products)
+            {
+                if (Regex.IsMatch(product.ProductName, $@"\w*{word}*", RegexOptions.IgnoreCase))
+                {
+                    FoundProducts.Add(product);
+                }
+
+            }
+            return Ok(FoundProducts);
+        }
+
 
         [Authorize(Roles = "Jamshid")]
         [HttpPost("AddProduct")]
@@ -51,16 +64,10 @@ namespace ProductWebApi.Controllers
                return BadRequest(ModelState.ToJson(formatting:Newtonsoft.Json.Formatting.Indented));
             }
 
-            Product newProduct = new Product
-            {
-                CategoryId = product.CategoryId,
-                Description = product.Description,
-                Picture = product.Picture,
-                Price = product.Price,
-                ProductName = product.ProductName,
-                CreatedBy = ClaimTypes.Email,
-                CreatedAt = DateTime.Now.ToUniversalTime()
-            };
+            Product newProduct = product;
+            newProduct.CreatedBy = User.FindFirstValue(ClaimTypes.Email);
+            
+            newProduct.CreatedAt = DateTime.Now.ToUniversalTime();
 
            bool isAdded= await _productService.CreateAsync(newProduct);
             Log.Information("Created product from employee" +User.FindFirstValue(ClaimTypes.Email));
@@ -91,7 +98,7 @@ namespace ProductWebApi.Controllers
                 Price = product.Price,
                 Description = product.Description,
                 LastModified = DateTime.Now.ToUniversalTime(),
-                LastModifiedBy = ClaimTypes.Email
+                LastModifiedBy = User.FindFirstValue(ClaimTypes.Email)
             };
             var isUpdated = await _productService.UpdateAsync(newProduct);
             ResponseDto<ProductUpdate> response = new()

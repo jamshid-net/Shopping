@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title></title>
+</head>
+<body>
+    <section class="pt-5 pb-5">
+        <div class="container">
+            <div class="row w-100">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <h3 class="display-5 mb-2 text-center">Shopping Cart</h3>
+               
+                    <table id="shoppingCart" class="table table-condensed table-responsive">
+                        <thead>
+                            <tr>
+                                <th style="width:60%">Product</th>
+                                <th style="width:12%">Price</th>
+                                
+                                <th style="width:16%"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="cartBody">
+                           
+                        </tbody>
+                    </table>
+                    <div class="float-right text-right">
+                        <h4>Subtotal:</h4>
+                        <h1 id="totalPrice"></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4 d-flex align-items-center">
+                <div class="col-sm-6 order-md-2 text-right">
+                    <a onclick="AddToOrder()" class="btn btn-primary mb-4 btn-lg pl-5 pr-5" role="button">Checkout</a>
+                </div>
+                <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+                    <a href="/productPage.html">
+                        <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+   <script src="/js/checkout.js" asp-append-version="true"></script>
+   <script src="/js/bootstrap.min.js" asp-append-version="true"></script>
+   <script src="/js/jquery-3.3.1.slim.min.js" asp-append-version="true"></script>
+   <script src="/js/popper.min.js" asp-append-version="true"></script>
+</body>
+</html>

@@ -16,17 +16,12 @@ namespace ProductWebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class UserController : Controller
+    public class UserController : ApiBaseController
     {
 
-        private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
-        {
-            _userService = userService;
-        }
-
         [HttpGet("Users")]
+        [Authorize(Roles = "Jamshid")]
+
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var users = await _userService.GetAllAsync();
@@ -39,8 +34,9 @@ namespace ProductWebApi.Controllers
 
             return Ok(response);
         }
-        
+
         [Authorize(Roles = "Jamshid")]
+        [AllowAnonymous]
         [HttpPost("AddUser")]
         public async Task<IActionResult> CreateUserAsync([FromForm] UserRegister userRegister)
         {
@@ -55,7 +51,7 @@ namespace ProductWebApi.Controllers
                 Email = userRegister.Email,
                 Password = userRegister.Password,
                 UserName = userRegister.UserName,
-                CreatedBy = ClaimTypes.Email,
+                CreatedBy =User.FindFirstValue(ClaimTypes.Email),
                 CreatedAt = DateTime.Now.ToUniversalTime()
 
             };
@@ -115,7 +111,7 @@ namespace ProductWebApi.Controllers
                 .ParseLambda(new[] { parameter }, typeof(bool), expressionString) as Expression<Func<User, bool>>;
             var compiledExpression = expression.Compile();
 
-            var user = await _userService.GetAsync(expression);
+            var user =await _userService.GetAsync(expression);
 
 
         

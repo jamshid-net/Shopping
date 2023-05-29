@@ -15,5 +15,6 @@ namespace Shopping.Application.DTOs.UserDto
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Enter password")]
         public string Password { get; set; }
+
     }
 }

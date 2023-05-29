@@ -17,8 +17,12 @@ namespace Shopping.Domain.Models
 
         [Column("user_id")]
         public int UserId { get; set; }
-        public  User User { get; set; }
-        
-        public virtual IList<OrderProduct>? OrderProducts { get; set; }
+        public  User? User { get; set; }
+
+        [Column("is_completed")]
+        public bool IsCompleted { get; set; } = false;
+        [NotMapped]
+        public List<Product>? Products { get; set; }
+        public IList<OrderProduct>? OrderProducts { get; set; } = new List<OrderProduct>();
     }
 }

@@ -1,16 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Shopping.Application.Abstraction;
-using Shopping.Application.Interfaces;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shopping.Application.Service;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot;
 
 namespace Shopping.Application
 {
@@ -23,12 +12,27 @@ namespace Shopping.Application
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IPermissionService, PermissionService>();
-            services.AddScoped<IRolePermissionService,RolePermissionService>();
+            services.AddScoped<ICartItemService,CartItemService>();
             services.AddScoped<IHashStringService, HashStringService>();    
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IUserTokenService, UserTokenService>();
             services.AddScoped<IOrderRepository, OrderService>();
-           
+            //services.AddScoped<IValidator<UserLogin>, UserLoginValidate>();
+            //services.AddScoped<IValidator<UserRegister>, UserRegisterValidate>();
+            //services.AddScoped<IValidator<UserCreate>, UserCreateValidate>();
+            //services.AddScoped<IValidator<UserUpdate>, UserUpdateValidate>();
+            //services.AddScoped<IValidator<ProductCreate>, ProductCreateValidate>();
+            //services.AddScoped<IValidator<ProductUpdate>, ProductUpdateValidate>();
+            //services.AddScoped<IValidator<RoleCreate>, RoleCreateValidate>();
+            //services.AddScoped<IValidator<RoleUpdate>, RoleUpdateValidate>();
+            //services.AddScoped<IValidator<PermissionCreate>, PermissionCreateValidate>();
+            //services.AddScoped<IValidator<PermissionUpdate>, PermissionUpdateValidate>();
+            //services.AddScoped<IValidator<OrderCreate>, OrderCreateValidate>();
+            //services.AddScoped<IValidator<OrderUpdate>, OrderUpdateValidate>();
+            //services.AddScoped<IValidator<CategoryCreate>, CategoryCreateValidate>();
+            //services.AddScoped<IValidator<CategoryUpdate>, CategoryUpdateValidate>();
+
+
           
             return services;
         }

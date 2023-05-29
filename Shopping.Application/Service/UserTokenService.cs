@@ -1,13 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shopping.Application.Abstraction;
-using Shopping.Application.DTOs.UserDto;
-using Shopping.Application.Interfaces;
-using Shopping.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Shopping.Application.Service
 {

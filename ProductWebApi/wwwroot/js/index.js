@@ -1,8 +1,19 @@
 ﻿
 
 
-
-
+async function CountOfItem() {
+    const countGet = await fetch(`/api/Shop/countOfItem`,
+        {
+            method: 'GET',
+            mode: 'cors'
+        });
+   
+    return countGet.json();
+}
+async function CartCounter() {
+    document.getElementById("countOfItems").innerHTML = await CountOfItem();
+}
+CartCounter();
 async function getProducts(i) {
    
     if (i == null) {
@@ -16,6 +27,7 @@ async function getProducts(i) {
     const products = await response.json();
     return products;
 }
+
 
 
 async function getAllProducts() {
@@ -32,18 +44,29 @@ async function getAllProducts() {
 
  function createProduct(product) {
 
-     const ProductBootstarpCard = `<div class="card m-3" style="width: 18rem;">
+     const ProductBootstarpCard = `<div class="card m-3 shadow-lg p-3 mb-5 bg-white rounded" style="width: 18rem;">
   <img class="card-img-top" src="${product.picture}" alt="${product.name}">
   <div class="card-body">
     <h5 class="card-title">${product.productName}</h5>
-    <h6 class="card-title">${product.price}</h6>
+    <h6 class="card-title">${product.price}$</h6>
     <p class="card-text">${product.description}</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>`
-
+    <button type="button" onclick="addTocart(${product.productId})" class="btn btn-primary">Add to cart</button>
+    </div>
+   </div>`
+         
 
      return ProductBootstarpCard;
+}
+
+async function addTocart(i) {
+   
+    
+    await fetch(`/api/Shop/addToCart?productId=${i}`,
+        {
+            method: 'POST',
+            mode: 'cors'
+        });
+    await CartCounter();
 }
 
 async function displayProducts(i) {
@@ -63,7 +86,7 @@ async function PaginationTest() {
     const size = Object.keys(await getAllProducts()).length;
     var doc = document.getElementById("paginationForCard");
     doc.innerHTML +=`<li class="page-item"><a class="page-link">Previous</a></li>`
-    for (var i = 1; i <= (size/5)+1; i++) {
+    for (var i = 1; i <= Math.floor((size/6)+1); i++) {
 
         doc.innerHTML += `<li class="page-item "><a class="page-link" onclick="myPageTest(${i})">${i}</a></li>`;
         
@@ -71,4 +94,33 @@ async function PaginationTest() {
     doc.innerHTML += `<li class="page-item"><a class="page-link">next</a></li>`
 }
 PaginationTest();
+async function getFoundProducts() {
+
+
+
+    var word = document.getElementById("searchProduct").value;
+
+    const response = await fetch(`/api/Product/SearchProductsAndGetAll?word=${word}`,
+        {
+            method: 'GET',
+            mode: 'cors'
+        });
+    const products = await response.json();
+    return products;
+}
+async function foundProductsDisplay() {
+    const products = await getFoundProducts();
+    document.getElementById("product").innerHTML = null;
+    products.forEach(product => {
+        const productCard = createProduct(product);
+        document.getElementById("product").innerHTML += productCard;
+    });
+}
+document.getElementById("eventFromJs").onclick = function () {
+    foundProductsDisplay();
+}
+
+
+
+
 

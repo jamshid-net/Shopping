@@ -15,8 +15,6 @@ namespace Shopping.Application.DTOs.ProductDto
         [Required(ErrorMessage = "Enter category id")]
         public int CategoryId { get; set; }
 
-
-
         [Required(ErrorMessage = "Enter name of product")]
         public string? ProductName { get; set; }
 

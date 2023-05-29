@@ -20,7 +20,7 @@ namespace ProductWebApi.ExceptionHandler
                 await _next(httpContext);
                 if(httpContext.Response.StatusCode < 300)
                 {
-                Log.Warning("CLIENT_IP:{ClientIp} CLIENT:{EnvironmentUserName}" + $" Request:{httpContext.Request.Path} Status_Code:{httpContext.Response.StatusCode}");
+                Log.Warning("CLIENT_IP:{ClientIp} CLIENT:{EnvironmentUserName} " +  $"MN{Dns.GetHostName} Request:{httpContext.Request.Path} Status_Code:{httpContext.Response.StatusCode}");
 
                 }
                 else

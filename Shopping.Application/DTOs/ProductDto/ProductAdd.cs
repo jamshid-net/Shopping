@@ -1,4 +1,5 @@
-﻿using Shopping.Domain.Models;
+﻿using Newtonsoft.Json;
+using Shopping.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,6 +26,18 @@ namespace Shopping.Application.DTOs.ProductDto
 
         [Required(ErrorMessage ="Enter url of picture or path")]
         public string? Picture { get; set; }
+
+        // this is used for mapping
+        public static implicit operator Product(ProductAdd productadd)
+            => new Product
+            {
+                CategoryId = productadd.CategoryId,
+                ProductName = productadd.ProductName,
+                Description = productadd.Description,
+                Price = productadd.Price,
+                Picture = productadd.Picture
+
+            };
 
     }
 }

@@ -1,17 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Shopping.Application.Abstraction;
-using Shopping.Application.DTOs.TokenResponse;
-using Shopping.Application.DTOs.UserDto;
-using Shopping.Application.Interfaces;
-using Shopping.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Shopping.Application.Service
 {
@@ -39,11 +26,11 @@ namespace Shopping.Application.Service
                 new Claim(ClaimTypes.Email,user.Email)
 
             };
-            foreach (UserRole userRole in foundUser.UsersRoles)
+            foreach (var userRole in foundUser.Roles)
             {
-                foreach (RolePermission permission in userRole.Role.RolePermissions)
+                foreach (Permission permission in userRole.Permissions)
                 {
-                    permissions.Add(new Claim(ClaimTypes.Role, permission.Permission.PermissionName));
+                    permissions.Add(new Claim(ClaimTypes.Role, permission.PermissionName));
                 }
             }
 

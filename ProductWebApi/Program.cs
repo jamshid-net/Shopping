@@ -29,8 +29,8 @@ namespace ProductWebApi
                 .WriteTo.Console()
                 .Enrich.FromLogContext()
                 .Enrich.WithEnvironmentUserName()
+                .Enrich.WithMachineName()
                 .Enrich.WithClientIp()
-                .Enrich.WithEnvironmentName()
                 .WriteTo.TeleSink(
                  telegramApiKey: builder.Configuration.GetConnectionString("TelegramToken"),
                  telegramChatId: "33780774",

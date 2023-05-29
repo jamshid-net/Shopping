@@ -1,0 +1,14 @@
+﻿global using FluentValidation;
+global using Microsoft.EntityFrameworkCore;
+global using Shopping.Application.Abstraction;
+global using Shopping.Application.Interfaces;
+global using Shopping.Domain.Models;
+global using System.Linq.Expressions;
+global using System.Security.Cryptography;
+global using System.Text;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using Shopping.Application.DTOs.UserDto;
+global using Shopping.Application.DTOs.TokenResponse;

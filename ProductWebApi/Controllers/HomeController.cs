@@ -8,13 +8,12 @@ namespace ProductWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HomeController : Controller
+    public class HomeController : ApiBaseController
     {
 
-        private readonly IWebHostEnvironment _hostEnviroment;
+        
 
-        public HomeController(IWebHostEnvironment hostEnviroment)
-             =>_hostEnviroment = hostEnviroment;
+  
         
 
         [HttpGet("/routes")]
@@ -39,8 +38,29 @@ namespace ProductWebApi.Controllers
             return new ContentResult { Content = html , ContentType = "text/html",StatusCode=200};
 
         }
-        
-        
+
+        [Authorize]
+        [HttpGet("/checkoutlist.html")]
+        public async Task<IActionResult> CheckoutList()
+        {
+            string webrootpath = _hostEnviroment.WebRootPath;
+            string path = Path.Combine(webrootpath, "checkoutlist.html");
+            var html = System.IO.File.ReadAllText(path);
+
+            return new ContentResult { Content = html, ContentType = "text/html", StatusCode = 200 };
+        }
+
+        [Authorize]
+        [HttpGet("/userpage.html")]
+        public async Task<IActionResult> UserPage()
+        {
+            string webrootpath = _hostEnviroment.WebRootPath;
+            string path = Path.Combine(webrootpath, "userpage.html");
+            var html = System.IO.File.ReadAllText(path);
+
+            return new ContentResult { Content = html, ContentType = "text/html", StatusCode = 200 };
+        }
+
         [Authorize]
         [HttpGet("/swagger/index.html")]
         public async Task<IActionResult> SwaggerPage()

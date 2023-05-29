@@ -24,7 +24,6 @@ namespace Shopping.Domain.Models
         public string Email { get; set; }
         [Column("password")]
         public string Password { get; set; }
-
-         ICollection<Order> Orders { get; set; }
+        ICollection<Order>? Orders { get; set; }
     }
 }

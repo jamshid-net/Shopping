@@ -22,6 +22,62 @@ namespace Shopping.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("PermissionRole", b =>
+                {
+                    b.Property<int>("PermissionsPermissionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RolesRoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PermissionsPermissionId", "RolesRoleId");
+
+                    b.HasIndex("RolesRoleId");
+
+                    b.ToTable("PermissionRole");
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<int>("RolesRoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersUserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RolesRoleId", "UsersUserId");
+
+                    b.HasIndex("UsersUserId");
+
+                    b.ToTable("RoleUser");
+                });
+
+            modelBuilder.Entity("Shopping.Domain.Models.CartItem", b =>
+                {
+                    b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CartId"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("Shopping.Domain.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -129,6 +185,10 @@ namespace Shopping.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("created_by");
 
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_completed");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("last_modified");
@@ -152,18 +212,15 @@ namespace Shopping.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("integer")
-                        .HasColumnName("order_id");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("integer")
-                        .HasColumnName("product_id");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -171,7 +228,7 @@ namespace Shopping.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("order_products");
+                    b.ToTable("OrderProducts");
                 });
 
             modelBuilder.Entity("Shopping.Domain.Models.Permission", b =>
@@ -263,32 +320,6 @@ namespace Shopping.Infrastructure.Migrations
                     b.ToTable("roles");
                 });
 
-            modelBuilder.Entity("Shopping.Domain.Models.RolePermission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("integer")
-                        .HasColumnName("permission_id");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("role_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PermissionId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("roles_permissions");
-                });
-
             modelBuilder.Entity("Shopping.Domain.Models.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -364,30 +395,53 @@ namespace Shopping.Infrastructure.Migrations
                     b.ToTable("user_tokens");
                 });
 
-            modelBuilder.Entity("Shopping.Domain.Models.UserRole", b =>
+            modelBuilder.Entity("PermissionRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
+                    b.HasOne("Shopping.Domain.Models.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionsPermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.HasOne("Shopping.Domain.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("role_id");
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("Shopping.Domain.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("user_id");
+                    b.HasOne("Shopping.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.HasKey("Id");
+            modelBuilder.Entity("Shopping.Domain.Models.CartItem", b =>
+                {
+                    b.HasOne("Shopping.Domain.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasIndex("RoleId");
+                    b.HasOne("Shopping.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasIndex("UserId");
+                    b.Navigation("Product");
 
-                    b.ToTable("users_roles");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Shopping.Domain.Models.Order", b =>
@@ -431,48 +485,9 @@ namespace Shopping.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Shopping.Domain.Models.RolePermission", b =>
-                {
-                    b.HasOne("Shopping.Domain.Models.Permission", "Permission")
-                        .WithMany("RolePermissions")
-                        .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Shopping.Domain.Models.Role", "Role")
-                        .WithMany("RolePermissions")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Permission");
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("Shopping.Domain.Models.UserRole", b =>
-                {
-                    b.HasOne("Shopping.Domain.Models.Role", "Role")
-                        .WithMany("UsersRoles")
-                        .HasForeignKey("RoleId");
-
-                    b.HasOne("Shopping.Domain.Models.User", "User")
-                        .WithMany("UsersRoles")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Shopping.Domain.Models.Order", b =>
                 {
                     b.Navigation("OrderProducts");
-                });
-
-            modelBuilder.Entity("Shopping.Domain.Models.Permission", b =>
-                {
-                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("Shopping.Domain.Models.Product", b =>
@@ -480,18 +495,9 @@ namespace Shopping.Infrastructure.Migrations
                     b.Navigation("OrderProducts");
                 });
 
-            modelBuilder.Entity("Shopping.Domain.Models.Role", b =>
-                {
-                    b.Navigation("RolePermissions");
-
-                    b.Navigation("UsersRoles");
-                });
-
             modelBuilder.Entity("Shopping.Domain.Models.User", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("UsersRoles");
                 });
 #pragma warning restore 612, 618
         }

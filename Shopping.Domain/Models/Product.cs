@@ -32,7 +32,9 @@ namespace Shopping.Domain.Models
         public decimal Price { get; set; }
         [Column("product_picture")]
         public string? Picture { get; set; }
+
         [JsonIgnore]
-        public virtual IList<OrderProduct>? OrderProducts { get; set; }
+        public IList<OrderProduct>? OrderProducts { get; set; }
+
     }
 }

@@ -92,7 +92,7 @@ namespace Shopping.TelegramBotService.TelegramService
         {
             long id = update.Message.Chat.Id;
             var user = _users.FirstOrDefault(x => x.ChatId == id);
-            if (user != null)
+            if (user !=  null)
             {
                 switch (user.step)
                 {

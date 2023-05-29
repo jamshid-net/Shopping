@@ -11,15 +11,9 @@ namespace ProductWebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Jamshid")]
-    public class PermissionController : Controller
+    public class PermissionController : ApiBaseController
     {
-        private readonly IPermissionService _permissionService;
-
-        public PermissionController(IPermissionService permissionService)
-        {
-            _permissionService = permissionService;
-        }
-
+        
         [HttpGet("Permissions")]
         public async Task<IActionResult> GetAllPermissionsAsync()
         {

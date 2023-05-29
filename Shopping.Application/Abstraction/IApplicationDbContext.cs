@@ -12,11 +12,12 @@ namespace Shopping.Application.Abstraction
         public DbSet<Customer> Customers { get; }
         public DbSet<Role> Roles { get; }
         public DbSet<Permission> Permissions { get; }
-        public DbSet<RolePermission> RolePermissions { get; }
+        
         public DbSet<User> Users { get; }
-        public DbSet<OrderProduct> OrderProducts { get; }
+        public DbSet<CartItem> CartItems { get; }
+       
         public DbSet<UserRefreshToken> UserRefreshTokens { get; }
-        public DbSet<UserRole> UserRoles { get; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     }
