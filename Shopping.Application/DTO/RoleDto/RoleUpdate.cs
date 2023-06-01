@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Application.DTO.RoleDto
 {
-    public class RoleUpdate
+    public partial class RoleUpdate
     {
         public int RoleId { get; set; }
         public string RoleName { get; set; }

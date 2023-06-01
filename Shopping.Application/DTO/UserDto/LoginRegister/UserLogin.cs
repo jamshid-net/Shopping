@@ -1,6 +1,6 @@
 ﻿namespace Shopping.Application.DTO.UserDto.LoginRegister
 {
-    public class UserLogin
+    public partial class UserLogin
     {
         public string Email { get; set; }
        

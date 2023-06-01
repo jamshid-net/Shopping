@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Application.DTO.UserDto.LoginRegister
 {
-    public class UserRegister
+    public partial class UserRegister
     {
    
         public string UserName { get; set; }

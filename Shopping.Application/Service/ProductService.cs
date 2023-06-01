@@ -5,8 +5,11 @@
     {
         private readonly IApplicationDbContext _dbContext;
 
-        public ProductService(IApplicationDbContext dbContext) =>
+        public ProductService(IApplicationDbContext dbContext)
+        {
             _dbContext = dbContext;
+           
+        }
 
 
         public async Task<bool> CreateAsync(Product entity)

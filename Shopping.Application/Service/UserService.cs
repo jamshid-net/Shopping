@@ -10,6 +10,9 @@
 
             _dbContext = dbContext;
             _hashStringService = hashStringService;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("--USER SERVICE WORKING SCOPED--");
+            Console.ResetColor();
         }
 
         public async Task<bool> CreateAsync(User entity)
