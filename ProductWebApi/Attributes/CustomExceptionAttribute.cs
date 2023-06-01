@@ -1,37 +1,47 @@
-﻿
-
-
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using ProductWebApi.ExceptionHandler;
 using Serilog;
+using System.Runtime.CompilerServices;
+using System.Security;
+using System.Security.Authentication;
 
 namespace ProductWebApi.Attributes
 {
-    public class CustomExceptionAttribute: ExceptionFilterAttribute
+    public class CustomExceptionAttribute : ExceptionFilterAttribute
     {
-        public override async void OnException(ExceptionContext context)
+
+        public override async Task OnExceptionAsync(ExceptionContext context)
         {
-            int exception = context.Exception switch
-            {
-                NullReferenceException =>
-                context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest,
-                Exception =>
-                context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound,
-
-
-
-            };
-            //Log.Error(exception.)
-            
            
+            var ex = context.Exception;
+            if (ex is ArgumentException)
+                context.Result = await HandleExceptionAsync(ex, StatusCodes.Status400BadRequest);
+            else if (ex is AuthenticationException)
+                context.Result = await HandleExceptionAsync(ex, StatusCodes.Status401Unauthorized);
+            else if (ex is SecurityException)
+                context.Result = await HandleExceptionAsync(ex, StatusCodes.Status403Forbidden);
+            else if (ex is KeyNotFoundException || ex is NullReferenceException)
+                context.Result = await HandleExceptionAsync(ex, StatusCodes.Status404NotFound);
+            else 
+            context.Result = await HandleExceptionAsync(ex, StatusCodes.Status500InternalServerError);
 
 
         }
 
-       
-
-        public override Task OnExceptionAsync(ExceptionContext context)
+        public  async Task<IActionResult> HandleExceptionAsync(Exception ex, int statusCode)
         {
-            return base.OnExceptionAsync(context);
+            Log.Error(ex.Message, statusCode);
+            var error = new ErrorDto
+            {
+                Message = ex.Message,
+                StatusCode = statusCode
+            };
+            return await Task.FromResult(new OkObjectResult(error));
         }
+
+
+      
     }
 }

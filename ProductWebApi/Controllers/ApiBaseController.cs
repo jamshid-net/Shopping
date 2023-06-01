@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using ProductWebApi.Attributes;
 using Shopping.Application.Interfaces;
 
 namespace ProductWebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+//[CustomException]
 public class ApiBaseController : Controller
 { 
     protected  ICategoryService _categoryService
