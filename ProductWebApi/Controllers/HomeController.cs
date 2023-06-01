@@ -61,7 +61,8 @@ namespace ProductWebApi.Controllers
             return new ContentResult { Content = html, ContentType = "text/html", StatusCode = 200 };
         }
 
-        [Authorize]
+        // [Authorize]
+        [AllowAnonymous]
         [HttpGet("/swagger/index.html")]
         public async Task<IActionResult> SwaggerPage()
         {

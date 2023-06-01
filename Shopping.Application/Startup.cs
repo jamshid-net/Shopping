@@ -7,6 +7,8 @@ namespace Shopping.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
+           
+
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IUserService, UserService>();
@@ -32,9 +34,10 @@ namespace Shopping.Application
             //services.AddScoped<IValidator<CategoryCreate>, CategoryCreateValidate>();
             //services.AddScoped<IValidator<CategoryUpdate>, CategoryUpdateValidate>();
 
+            return services;
 
           
-            return services;
         }
     }
+ 
 }

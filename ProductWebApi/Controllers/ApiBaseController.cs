@@ -7,8 +7,7 @@ namespace ProductWebApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class ApiBaseController : Controller
-{
-
+{ 
     protected  ICategoryService _categoryService
        => HttpContext.RequestServices.GetRequiredService<ICategoryService>();
     

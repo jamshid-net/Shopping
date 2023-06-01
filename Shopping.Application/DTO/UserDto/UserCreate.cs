@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Shopping.Application.DTO.UserDto
 {
-    public class UserCreate
+    public partial class UserCreate
     {
         public string UserName { get; set; }
         public string Email { get; set; } 
 
         public string Password { get; set; }
         public int[] Roles { get; set; } = new int[1] {1};
+
     }
 }

@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 using Shopping.Application.DTOs;
 using Shopping.Application.DTOs.UserDto;
-using Shopping.Application.Interfaces;
-using Shopping.Application.Service;
 using Shopping.Domain.Models;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
@@ -19,8 +15,12 @@ namespace ProductWebApi.Controllers
     public class UserController : ApiBaseController
     {
 
+        
+        
         [HttpGet("Users")]
+
         [Authorize(Roles = "Jamshid")]
+
 
         public async Task<IActionResult> GetAllUsersAsync()
         {

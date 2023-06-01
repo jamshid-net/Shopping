@@ -12,6 +12,9 @@ namespace Shopping.Application.Service
         public CategoryService(IApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("--CATEGORY SERVICE WORKING Transient---");
+            Console.ResetColor();
         }
 
         public async Task<bool> CreateAsync(Category entity)

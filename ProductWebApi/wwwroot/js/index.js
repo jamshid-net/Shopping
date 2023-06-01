@@ -42,20 +42,19 @@ async function getAllProducts() {
     return products;
 }
 
- function createProduct(product) {
+function createProduct(currentItem) {
 
-     const ProductBootstarpCard = `<div class="card m-3 shadow-lg p-3 mb-5 bg-white rounded" style="width: 18rem;">
-  <img class="card-img-top" src="${product.picture}" alt="${product.name}">
-  <div class="card-body">
-    <h5 class="card-title">${product.productName}</h5>
-    <h6 class="card-title">${product.price}$</h6>
-    <p class="card-text">${product.description}</p>
-    <button type="button" onclick="addTocart(${product.productId})" class="btn btn-primary">Add to cart</button>
-    </div>
-   </div>`
-         
+     const card = `<div class="card m-3 shadow-lg p-3 mb-5 bg-white rounded" style="width: 18rem;">
+            <img class="card-img-top" src="${currentItem.picture}" alt="${currentItem.productName}">
+            <div class="card-body">
+                <h5 class="card-title">${currentItem.productName}</h5>
+                <h6 class="card-title">${currentItem.price}$</h6>
+                <p class="card-text">${currentItem.description}</p>
+                <button type="button" onclick="addTocart(${currentItem.productId})" class="btn btn-primary">Add to cart</button>
+            </div>
+        </div>`;
 
-     return ProductBootstarpCard;
+     return card;
 }
 
 async function addTocart(i) {
@@ -71,8 +70,9 @@ async function addTocart(i) {
 
 async function displayProducts(i) {
     const products = await getProducts(i);
+   
     document.getElementById("product").innerHTML = null;
-    products.forEach(product => {
+    products.items.forEach(product => {
         const productCard = createProduct(product);
         document.getElementById("product").innerHTML += productCard;
     });
@@ -83,15 +83,18 @@ function myPageTest(i) {
     displayProducts(i);
 }
 async function PaginationTest() {
-    const size = Object.keys(await getAllProducts()).length;
+    const products = await getProducts(i);
+   
     var doc = document.getElementById("paginationForCard");
-    doc.innerHTML +=`<li class="page-item"><a class="page-link">Previous</a></li>`
-    for (var i = 1; i <= Math.floor((size/6)+1); i++) {
+    doc.innerHTML += `<li class="page-item"><a  class="page-link">Previous</a></li>`
+
+    for (var i = 1; i <= products.totalPage; i++) {
 
         doc.innerHTML += `<li class="page-item "><a class="page-link" onclick="myPageTest(${i})">${i}</a></li>`;
         
     }
-    doc.innerHTML += `<li class="page-item"><a class="page-link">next</a></li>`
+    doc.innerHTML += `<li class="page-item"><a  class="page-link">next</a></li>`
+    
 }
 PaginationTest();
 async function getFoundProducts() {

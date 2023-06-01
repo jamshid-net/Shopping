@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
+using ProductWebApi.Attributes;
 using Serilog;
+using Shopping.Application;
 using Shopping.Application.DTOs;
 using Shopping.Application.DTOs.ProductDto;
 using Shopping.Application.Interfaces;
@@ -14,18 +16,17 @@ namespace ProductWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ProductController : ApiBaseController
     {
         
-
-        
-
         [HttpGet("Products")]
        // [Authorize(Roles = "GetAllProducts")]
         
+        [AuthorizationFilter(Permissions = "GetAllProduct")]
         public async Task<IActionResult> GetAllProductsAsync()
         {
+           
             var products = await _productService.GetAllAsync();
             return Ok(products);
         }
@@ -33,8 +34,11 @@ namespace ProductWebApi.Controllers
         [HttpGet("pagenation")]
         public async Task<IActionResult> GetAllProductsPageAsync(int page)
         {
-            var products = (await _productService.GetAllAsync()).Skip((page - 1) * 6).Take(6);
-            return Ok(products);
+            var products = await _productService.GetAllAsync();
+
+            var PaginatedItems = await PaginationList<Product>.CreatePaginatedListAsync(products, page, 6);
+
+            return Ok(PaginatedItems);
         }
 
         [HttpGet("[action]")]

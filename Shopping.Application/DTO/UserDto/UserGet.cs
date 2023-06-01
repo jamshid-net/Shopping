@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Application.DTO.UserDto
 {
-    public class UserGet
+    public partial class UserGet
     {
         public int UsertId { get; set; }    
         public string UserName { get; set; }

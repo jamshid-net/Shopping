@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Shopping.Application.DTO.UserDto.LoginRegister;
+using UserRegister = Shopping.Application.DTO.UserDto.LoginRegister.UserRegister;
 
 namespace Shopping.Application.Validation.UserValidate.UserLoginRegisterValidate
 {

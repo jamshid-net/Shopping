@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Shopping.Application.DTO.UserDto;
+using UserUpdate = Shopping.Application.DTO.UserDto.UserUpdate;
 
 namespace Shopping.Application.Validation.UserValidate
 {

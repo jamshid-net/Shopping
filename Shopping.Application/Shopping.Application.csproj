@@ -7,15 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DTO\**" />
-    <Compile Remove="Validation\**" />
-    <EmbeddedResource Remove="DTO\**" />
-    <EmbeddedResource Remove="Validation\**" />
-    <None Remove="DTO\**" />
-    <None Remove="Validation\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.3" />
