@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Application.DTO.ProductDto
 {
-    public class ProductUpdate
+    public  class ProductUpdate
     {
         public int ProductId { get; set; }
         public int CategoryId { get; set; }

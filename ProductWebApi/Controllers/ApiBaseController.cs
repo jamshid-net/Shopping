@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using ProductWebApi.Attributes;
 using Shopping.Application.Interfaces;
 
@@ -33,5 +34,8 @@ public class ApiBaseController : Controller
    
     protected ICartItemService _cartItemService 
         => HttpContext.RequestServices.GetRequiredService<ICartItemService>();
+
+    protected IHashStringService _hashStringService
+        => HttpContext.RequestServices.GetRequiredService<IHashStringService>();
 }
 

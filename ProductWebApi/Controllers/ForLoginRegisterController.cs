@@ -135,7 +135,9 @@ namespace ProductWebApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> LoginUser([FromForm] UserLogin user)
         {
-            var foundUser = await _userService.GetAsync(x => x.Email == user.Email && x.Password==user.Password);
+
+            var hashedPassword = await _hashStringService.HashStringAsync(user.Password);
+            var foundUser = await _userService.GetAsync(x => x.Email == user.Email && x.Password== hashedPassword);
             var context = HttpContext;
             if (!ModelState.IsValid)
             {

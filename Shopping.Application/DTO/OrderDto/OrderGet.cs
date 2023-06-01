@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Application.DTO.OrderDto
 {
-    public class OrderGet
+    public  class OrderGet
     {
         public int OrderId { get; set; }
         public UserGet User { get; set; }
