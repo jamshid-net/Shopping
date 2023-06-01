@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Application.DTO.PermissionDto
 {
-    public class PermissionUpdate
+    public  class PermissionUpdate
     {
         public int PermissionId { get; set; }
         public string PermissionName { get; set; }

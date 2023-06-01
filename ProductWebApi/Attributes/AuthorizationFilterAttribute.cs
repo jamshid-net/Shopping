@@ -47,7 +47,6 @@ namespace ProductWebApi.Attributes
                 if (Permissions.Contains(permission.Value))
                     return Task.CompletedTask;
                
-
             }
             throw new UnauthorizedAccessException("user not authorized");  
 

@@ -30,6 +30,7 @@ namespace ProductWebApi.Controllers
         [HttpPost("addToOrder")]
         public async Task<IActionResult> AddToOrder()
         {
+          
             var allCart = await _cartItemService.GetAllAsync();
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             var user = await _userService.GetAsync(x => x.Email == userEmail);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Application.DTO.OrderDto
 {
-    public class OrderCreate
+    public  class OrderCreate
     {
         public int UserId { get; set; }
 

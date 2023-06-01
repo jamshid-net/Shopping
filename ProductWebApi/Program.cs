@@ -93,10 +93,10 @@ namespace ProductWebApi
                     {
                         var time = DateTime.Now.ToShortTimeString();
                         Console.WriteLine($"Time: {time}");
-                        await next();   // вызываем следующий middleware
+                        await next();  
                     });
 
-                // отправляем ответ
+                
                 appbuilder.Run(async context =>
                     {
                         var time = DateTime.Now.ToShortTimeString();

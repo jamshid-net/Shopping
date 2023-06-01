@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using ProductWebApi.ExceptionHandler;
 using Serilog;
-using System.Runtime.CompilerServices;
 using System.Security;
 using System.Security.Authentication;
 
@@ -41,7 +39,5 @@ namespace ProductWebApi.Attributes
             return await Task.FromResult(new OkObjectResult(error));
         }
 
-
-      
     }
 }

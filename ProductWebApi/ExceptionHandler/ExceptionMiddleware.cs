@@ -53,15 +53,15 @@ namespace ProductWebApi.ExceptionHandler
             HttpResponse response = httpContext.Response;
             response.ContentType = "application/json";
             response.StatusCode = (int)httpStatusCode;
-           
+            var path = httpContext.Request.Headers["Referer"].ToString();
 
             ErrorDto error = new ErrorDto
             {
                 Message = message,
                 StatusCode = (int)httpStatusCode
             };
-
-           await response.WriteAsync(error.ToString());
+            response.Redirect(path);
+          // await response.WriteAsync(error.ToString());
 
         }
     }
