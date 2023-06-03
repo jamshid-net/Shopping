@@ -8,11 +8,14 @@ namespace ProductWebApi.Attributes
 {
     public class CustomResourceFilterAttribute : Attribute, IResourceFilter
     {
+
         
         public CustomResourceFilterAttribute()
         {
             
         }
+
+
         public void OnResourceExecuted(ResourceExecutedContext context)
         {
             throw new NotImplementedException();
