@@ -57,6 +57,7 @@ namespace Shopping.Application.Service
                 UserEmail = user.Email
 
             };
+            
             return result; 
 
         }

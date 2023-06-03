@@ -9,6 +9,7 @@ namespace ProductWebApi.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 //[CustomException]
+
 public class ApiBaseController : Controller
 { 
     protected  ICategoryService _categoryService
@@ -37,5 +38,14 @@ public class ApiBaseController : Controller
 
     protected IHashStringService _hashStringService
         => HttpContext.RequestServices.GetRequiredService<IHashStringService>();
+
+    protected IJwtService _jwtService 
+        => HttpContext.RequestServices.GetRequiredService<IJwtService>();
+
+    protected IUserTokenService _userTokenService 
+        => HttpContext.RequestServices.GetRequiredService<IUserTokenService>();
+
+    protected IConfiguration _configuration 
+        => HttpContext.RequestServices.GetRequiredService<IConfiguration>();
 }
 

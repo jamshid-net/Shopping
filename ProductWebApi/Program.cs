@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ProductWebApi.AutoMapping;
 using ProductWebApi.ExceptionHandler;
 using Serilog;
@@ -40,10 +41,13 @@ namespace ProductWebApi
 
             builder.Services.AddApplication(configuration);
             builder.Services.AddInfrastructure(configuration);
+
+            //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCustomJwtBearer(configuration);
             //builder.Services.AddTelegramBot(configuration, builder.Environment.WebRootPath + "\\photos\\");
 
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+
             .AddCookie(options =>
             {
 
@@ -109,7 +113,7 @@ namespace ProductWebApi
             app.UseDefaultFiles();
 
             app.UseHttpsRedirection();
-            app.UseExceptionMiddleware();
+           // app.UseExceptionMiddleware();
 
             app.UseAuthentication();
             app.UseAuthorization();
