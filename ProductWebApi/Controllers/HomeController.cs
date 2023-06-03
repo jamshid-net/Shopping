@@ -11,10 +11,6 @@ namespace ProductWebApi.Controllers
     public class HomeController : ApiBaseController
     {
 
-        
-
-  
-        
 
         [HttpGet("/routes")]
         public async Task<string> getRoutes(IEnumerable<EndpointDataSource> endpointSources)
@@ -30,7 +26,7 @@ namespace ProductWebApi.Controllers
        
         public async Task<ContentResult> ProductPage()
         {
-
+             User.FindFirst
             string webrootpath = _hostEnviroment.WebRootPath;
             string path =  Path.Combine(webrootpath, "productPage.html");
             var html = System.IO.File.ReadAllText(path);

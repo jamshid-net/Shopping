@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Shopping.Application.DTOs.TokenResponse;
 using Shopping.Application.DTOs.UserDto;
 using Shopping.Application.Interfaces;
 using Shopping.Domain.Models;
@@ -24,8 +25,7 @@ namespace ProductWebApi.Controllers
         {
             if(!ModelState.IsValid)
             {
-                 BadRequest();
-                
+                 BadRequest(); 
             }
 
             var newUser =   _mapper.Map<User>(userRegister);
@@ -70,7 +70,8 @@ namespace ProductWebApi.Controllers
 
 
         //    Log.Fatal("SERILOG: User is logined " + user.Email);
-        //    _logger.LogError("ILOGGER:  USER IS LOGINED " + user.Email);
+        //    Log.Error("ILOGGER:  USER IS LOGINED " + user.Email);
+        //    var context = HttpContext;
         //    return Ok(token);
         //}
         #endregion
@@ -90,13 +91,13 @@ namespace ProductWebApi.Controllers
         //        Email = user.Email,
         //        Password = user.Password
         //    };
-        //    var savedRefreshtoken =await _userTokenService.GetSavedRefreshTokens(email, tokenResponseModel.RefreshToken);
-        //    if ( savedRefreshtoken.RefreshToken != tokenResponseModel.RefreshToken) //savedRefreshtoken ==null ||
+        //    var savedRefreshtoken = await _userTokenService.GetSavedRefreshTokens(email, tokenResponseModel.RefreshToken);
+        //    if (savedRefreshtoken.RefreshToken != tokenResponseModel.RefreshToken) //savedRefreshtoken ==null ||
         //    {
-        //         Log.Fatal("INVALID ATTEMPT ERROR IN REFRESHTOKEN");
+        //        Log.Fatal("INVALID ATTEMPT ERROR IN REFRESHTOKEN");
         //        return Unauthorized("Invalid attempt!");
         //    }
-        //    if(savedRefreshtoken.ExpiresTime <  DateTime.UtcNow)
+        //    if (savedRefreshtoken.ExpiresTime < DateTime.UtcNow)
         //    {
         //        return Unauthorized("TIME IS EXPIRED");
         //    }
@@ -117,14 +118,14 @@ namespace ProductWebApi.Controllers
         //        UserEmail = email,
         //        ExpiresTime = DateTime.UtcNow.AddMinutes(time)
         //    };
-        //    bool isDeleted = await  _userTokenService.DeleteUserRefreshTokens(email, tokenResponseModel.RefreshToken);
+        //    bool isDeleted = await _userTokenService.DeleteUserRefreshTokens(email, tokenResponseModel.RefreshToken);
         //    if (isDeleted)
         //    {
         //        await _userTokenService.AddUserRefreshTokens(obj);
 
         //    }
         //    else return BadRequest();
-        //     Log.Fatal("refreshed token  for user " + tokenResponseModel.UserEmail);
+        //    Log.Fatal("refreshed token  for user " + tokenResponseModel.UserEmail);
         //    return Ok(newJwtToken);
         //}
         #endregion
@@ -137,13 +138,13 @@ namespace ProductWebApi.Controllers
         {
 
             var hashedPassword = await _hashStringService.HashStringAsync(user.Password);
-            var foundUser = await _userService.GetAsync(x => x.Email == user.Email && x.Password== hashedPassword);
+            var foundUser = await _userService.GetAsync(x => x.Email == user.Email && x.Password == hashedPassword);
             var context = HttpContext;
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            if (foundUser.Email==null)
+            if (foundUser.Email == null)
                 return Unauthorized();
 
             var claims = new List<Claim>() { new Claim(ClaimTypes.Email, user.Email) };
