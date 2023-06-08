@@ -35,6 +35,8 @@ namespace ProductWebApi
             .CreateLogger();
 
             builder.Host.UseSerilog();
+            builder.Services.AddResponseCaching();
+            //builder.Services.AddLazyCache();
 
             builder.Services.AddLimiters();
             builder.Services.AddControllers();
@@ -62,7 +64,7 @@ namespace ProductWebApi
             });
             builder.Services.AddAuthorization();
             builder.Services.AddHttpContextAccessor();
-
+            builder.Services.AddDistributedMemoryCache();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(
              //   options =>
@@ -92,6 +94,7 @@ namespace ProductWebApi
              );
 
             var app = builder.Build();
+           
             app.UseRateLimiter();
             app.UseWhen(context => context.Request.Path == "/time",
             appbuilder =>
@@ -117,9 +120,10 @@ namespace ProductWebApi
 
             app.UseHttpsRedirection();
            // app.UseExceptionMiddleware();
-
+           app.UseResponseCaching();
             app.UseAuthentication();
             app.UseAuthorization();
+            
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

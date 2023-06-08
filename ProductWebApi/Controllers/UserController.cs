@@ -20,6 +20,7 @@ namespace ProductWebApi.Controllers
 
         public async Task<IActionResult> GetAllUsersAsync()
         {
+           
             var users = await _userService.GetAllAsync();
             ResponseDto<IQueryable<User>> response = new ResponseDto<IQueryable<User>>()
             {
