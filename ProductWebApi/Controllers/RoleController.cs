@@ -14,9 +14,6 @@ namespace ProductWebApi.Controllers
     public class RoleController : ApiBaseController
     {
 
-
-        
-
        
         [HttpGet("Roles")]
         public async Task<IActionResult> GetAllRolesAsync()

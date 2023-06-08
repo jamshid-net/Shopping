@@ -5,6 +5,7 @@ using ProductWebApi.ExceptionHandler;
 using Serilog;
 using Serilog.Events;
 using Shopping.Application;
+using Shopping.Application.Service;
 using Shopping.Infrastructure;
 using TelegramSink;
 
@@ -35,6 +36,7 @@ namespace ProductWebApi
 
             builder.Host.UseSerilog();
 
+            builder.Services.AddLimiters();
             builder.Services.AddControllers();
             IConfiguration configuration = builder.Configuration;
             builder.Services.AddAutoMapper(typeof(AppMapping));
@@ -90,6 +92,7 @@ namespace ProductWebApi
              );
 
             var app = builder.Build();
+            app.UseRateLimiter();
             app.UseWhen(context => context.Request.Path == "/time",
             appbuilder =>
             {

@@ -26,7 +26,7 @@ namespace ProductWebApi.Controllers
        
         public async Task<ContentResult> ProductPage()
         {
-             User.FindFirst
+            
             string webrootpath = _hostEnviroment.WebRootPath;
             string path =  Path.Combine(webrootpath, "productPage.html");
             var html = System.IO.File.ReadAllText(path);
@@ -57,8 +57,8 @@ namespace ProductWebApi.Controllers
             return new ContentResult { Content = html, ContentType = "text/html", StatusCode = 200 };
         }
 
-        // [Authorize]
-        [AllowAnonymous]
+         [Authorize]
+        //[AllowAnonymous]
         [HttpGet("/swagger/index.html")]
         public async Task<IActionResult> SwaggerPage()
         {
