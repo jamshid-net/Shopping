@@ -27,10 +27,12 @@ namespace ProductWebApi.Controllers
 
         [AuthorizationFilter(Permissions = "GetAllProduct")]
         [EnableRateLimiting("SlidingWindowLimiter")]
+        [ResponseCache(Duration = 100)]
+       // [AddLazyCache]
         public async Task<IActionResult> GetAllProductsAsync()
         {
            
-            var products = await _productService.GetAllAsync();
+            var products = (await _productService.GetAllAsync()).ToList();
             return Ok(products);
         }
       

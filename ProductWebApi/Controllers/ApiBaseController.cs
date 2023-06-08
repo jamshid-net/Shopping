@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using ProductWebApi.Attributes;
 using Shopping.Application.Interfaces;
@@ -47,5 +48,8 @@ public class ApiBaseController : Controller
 
     protected IConfiguration _configuration 
         => HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+
+    protected IDistributedCache _distributedCache 
+        => HttpContext.RequestServices.GetRequiredService<IDistributedCache>();
 }
 
