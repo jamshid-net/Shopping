@@ -18,7 +18,6 @@ namespace ProductWebApi.Controllers
     public class CategoryController : ApiBaseController
     {
        
-
         [HttpGet]
         [Route("categories")]
         public async Task<IActionResult> GetAllCategoriesAsync()

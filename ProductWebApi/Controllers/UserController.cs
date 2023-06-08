@@ -15,12 +15,8 @@ namespace ProductWebApi.Controllers
     public class UserController : ApiBaseController
     {
 
-        
-        
         [HttpGet("Users")]
-
         [Authorize(Roles = "Jamshid")]
-
 
         public async Task<IActionResult> GetAllUsersAsync()
         {
@@ -68,7 +64,7 @@ namespace ProductWebApi.Controllers
         }
 
         [Authorize(Roles = "Jamshid")]
-        [HttpPatch("UpdateUser")]
+        [HttpPut("UpdateUser")]
         public async Task<IActionResult> UpdateUserAsync( [FromForm] User user)
         {
             if (!ModelState.IsValid)
@@ -114,7 +110,7 @@ namespace ProductWebApi.Controllers
             var user =await _userService.GetAsync(expression);
 
 
-        
+            
             return Ok(user);
 
 

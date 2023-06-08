@@ -1,6 +1,7 @@
 ﻿using Flurl.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using NuGet.Protocol;
 using ProductWebApi.Attributes;
 using Serilog;
@@ -21,9 +22,11 @@ namespace ProductWebApi.Controllers
     {
         
         [HttpGet("Products")]
-       // [Authorize(Roles = "GetAllProducts")]
-        
+        // [Authorize(Roles = "GetAllProducts")]
+        [Authorize(Roles = "Jamshid")]
+
         [AuthorizationFilter(Permissions = "GetAllProduct")]
+        [EnableRateLimiting("SlidingWindowLimiter")]
         public async Task<IActionResult> GetAllProductsAsync()
         {
            
@@ -58,6 +61,8 @@ namespace ProductWebApi.Controllers
         }
 
 
+
+       
         [Authorize(Roles = "Jamshid")]
         [HttpPost("AddProduct")]
         public async Task<IActionResult> CreateProductAsync([FromForm] ProductAdd product)
