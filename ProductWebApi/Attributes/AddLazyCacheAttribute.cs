@@ -10,19 +10,21 @@ public class AddLazyCacheAttribute:ActionFilterAttribute
     private static IAppCache? _appcache;
     private static TimeSpan duration;
     private static string? key;
-    public override async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+
+
+    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         duration = TimeSpan.FromSeconds(100);
         _appcache = context.HttpContext.RequestServices.GetRequiredService<IAppCache>();
         if (context.HttpContext.Request.Path == "/api/Product/Products")
-            key ="Products";
+            key = "Products";
 
 
-        var cachedResult = await _appcache.GetOrAddAsync(key,()=> next(), duration);
-        
+        var cachedResult = await _appcache.GetOrAddAsync(key, () => next(), duration);
+
         if (cachedResult is not null)
             context.Result = cachedResult.Result;
-
     }
 
+  
 }

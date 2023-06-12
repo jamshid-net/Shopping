@@ -36,7 +36,7 @@ namespace ProductWebApi
 
             builder.Host.UseSerilog();
             builder.Services.AddResponseCaching();
-            //builder.Services.AddLazyCache();
+            builder.Services.AddLazyCache();
 
             builder.Services.AddLimiters();
             builder.Services.AddControllers();
@@ -45,6 +45,7 @@ namespace ProductWebApi
 
             builder.Services.AddApplication(configuration);
             builder.Services.AddInfrastructure(configuration);
+
 
             //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCustomJwtBearer(configuration);
             //builder.Services.AddTelegramBot(configuration, builder.Environment.WebRootPath + "\\photos\\");
@@ -119,15 +120,18 @@ namespace ProductWebApi
             app.UseDefaultFiles();
 
             app.UseHttpsRedirection();
-           // app.UseExceptionMiddleware();
-           app.UseResponseCaching();
+            app.UseExceptionMiddleware();
+          // app.UseResponseCaching();
             app.UseAuthentication();
             app.UseAuthorization();
             
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.DisplayRequestDuration();
+                });
             }
             app.MapControllers();
 

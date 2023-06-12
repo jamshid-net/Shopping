@@ -36,7 +36,7 @@
 
         public async Task<IQueryable<Product>> GetAllAsync()
         {
-            return (await Task.FromResult(_dbContext.Products.Include(x=> x.Category))).ToList().AsQueryable();
+            return (await Task.FromResult(_dbContext.Products.AsNoTracking().Include(x=> x.Category)));
         }
 
         public async Task<Product> GetByIdAsync(int Id)
