@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,5 +52,8 @@ public class ApiBaseController : Controller
 
     protected IDistributedCache _distributedCache 
         => HttpContext.RequestServices.GetRequiredService<IDistributedCache>();
+
+    protected IAppCache _appCache
+        => HttpContext.RequestServices.GetRequiredService<IAppCache>();
 }
 

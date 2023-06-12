@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Caching.Memory;
 using NuGet.Protocol;
 using ProductWebApi.Attributes;
 using Serilog;
@@ -26,13 +27,21 @@ namespace ProductWebApi.Controllers
         [Authorize(Roles = "Jamshid")]
 
         [AuthorizationFilter(Permissions = "GetAllProduct")]
-        [EnableRateLimiting("SlidingWindowLimiter")]
-        [ResponseCache(Duration = 100)]
-       // [AddLazyCache]
+        //[EnableRateLimiting("SlidingWindowLimiter")]
+       // [ResponseCache(Duration = 100)]
+       [AddLazyCache]
         public async Task<IActionResult> GetAllProductsAsync()
         {
-           
+            //if (_appCache.TryGetValue("Product", out List<Product> cachedEntities))
+            //{
+            //    return Ok(cachedEntities);
+            //}
+
             var products = (await _productService.GetAllAsync()).ToList();
+            //_appCache.Add("Product", products, new MemoryCacheEntryOptions
+            //{
+            //    AbsoluteExpiration = DateTime.Now.AddMinutes(1)
+            //}) ;
             return Ok(products);
         }
       
@@ -40,9 +49,9 @@ namespace ProductWebApi.Controllers
         public async Task<IActionResult> GetAllProductsPageAsync(int page)
         {
             var products = await _productService.GetAllAsync();
-
+           
             var PaginatedItems = await PaginationList<Product>.CreatePaginatedListAsync(products, page, 6);
-
+          
             return Ok(PaginatedItems);
         }
 
